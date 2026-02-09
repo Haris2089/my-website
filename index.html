@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy 16th Birthday Aisha 🎂</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Segoe UI, sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #ffc0cb, #ff9ad5, #ffd6e8);
+        color: #fff;
+        text-align: center;
+        overflow-x: hidden;
+      }
+      h1 {
+        font-size: 3rem;
+        margin-top: 30px;
+      }
+      h2 {
+        margin-top: 10px;
+      }
+      .hero {
+        padding: 40px 20px;
+      }
+      .message {
+        max-width: 700px;
+        margin: 20px auto;
+        font-size: 1.2rem;
+        line-height: 1.6;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      /* Countdown Screen */
+      #countdownScreen {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, #ff8ac6, #ff5fb2);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+      #timer {
+        font-size: 3rem;
+        margin-top: 20px;
+      }
+
+      /* Gallery */
+      .gallery {
+        margin-top: 40px;
+      }
+      .slider {
+        position: relative;
+        max-width: 700px;
+        margin: 20px auto;
+      }
+      .slide {
+        display: none;
+      }
+      .slide img {
+        width: 100%;
+        max-height: 500px;
+        object-fit: contain;
+        background: #00000020;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+      .active {
+        display: block;
+      }
+      .buttons {
+        margin-top: 15px;
+      }
+      button {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 20px;
+        background: #ff4da6;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background: #ff1f8f;
+      }
+
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: #fff;
+        top: -10px;
+        animation: fall linear forwards;
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(720deg);
+        }
+      }
+      footer {
+        margin: 40px 0;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- COUNTDOWN SCREEN -->
+    <div id="countdownScreen">
+      <h1>Shhh 🤫 It's not midnight in Uganda yet!</h1>
+      <h2>Birthday surprise unlocks in:</h2>
+      <div id="timer">Loading...</div>
+    </div>
+
+    <div id="siteContent" style="display: none">
+      <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mpeg" />
+      </audio>
+
+
+      <div class="hero">
+        <h1>Happy 16th Birthday 🎉</h1>
+        <h2>Aisha Malik 💖</h2>
+        <div class="message">
+          Happy Birthday to the most amazing sister! Watching you grow into such
+          a kind, smart, and beautiful person has been one of my greatest joys.
+          I hope your 16th year is filled with laughter, dreams coming true, and
+          endless happiness. You deserve the world and more. 💕
+          <br /><br />
+          Love you always!
+        </div>
+      </div>
+
+      <div class="gallery">
+        <h1>Memories Together 📸</h1>
+        <div class="slider">
+          <div class="slide active"><img src="pictures/mainpic.jpeg" /></div>
+          <div class="slide"><img src="pictures/pic1.jpeg" /></div>
+          <div class="slide"><img src="pictures/pic2.jpeg" /></div>
+          <div class="slide"><img src="pictures/pic3.jpeg" /></div>
+          <div class="slide"><img src="pictures/pic4.jpeg" /></div>
+          <div class="slide"><img src="pictures/pic5.jpeg" /></div>
+          <div class="slide"><img src="pictures/pic6.jpeg" /></div>
+          <div class="slide"><img src="pictures/pic7.jpeg" /></div>
+          <div class="slide"><img src="pictures/pic8.jpeg" /></div>
+        </div>
+        <div class="buttons">
+          <button onclick="prevSlide()">Previous</button>
+          <button onclick="nextSlide()">Next</button>
+        </div>
+      </div>
+
+      <footer>Made with ❤️ for Aisha</footer>
+    </div>
+
+    <script>
+      // TARGET: Feb 10, 2026 00:00 Uganda (UTC+3) => Feb 9 21:00 UTC
+      const targetDate = new Date(Date.UTC(2026, 1, 9, 21, 0, 0));
+
+      function updateCountdown() {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+            document.getElementById("countdownScreen").style.display = "none";
+            document.getElementById("siteContent").style.display = "block";
+
+            // play music 🎵
+            const music = document.getElementById("bgMusic");
+            music.volume = 0.5;
+            music.play().catch(() => {
+                // fallback if browser blocks autoplay
+                document.body.addEventListener("click", () => music.play(), { once: true });
+            });
+
+            return;
+        }
+
+
+        const d = Math.floor(diff / 1000 / 60 / 60 / 24);
+        const h = Math.floor(diff / 1000 / 60 / 60) % 24;
+        const m = Math.floor(diff / 1000 / 60) % 60;
+        const s = Math.floor(diff / 1000) % 60;
+
+        document.getElementById("timer").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+      }
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+
+      // Slider
+      let slideIndex = 0;
+      const slides = document.querySelectorAll(".slide");
+      function showSlide(i) {
+        slides.forEach((s) => s.classList.remove("active"));
+        slideIndex = (i + slides.length) % slides.length;
+        slides[slideIndex].classList.add("active");
+      }
+      function nextSlide() {
+        showSlide(slideIndex + 1);
+      }
+      function prevSlide() {
+        showSlide(slideIndex - 1);
+      }
+      setInterval(() => nextSlide(), 4000);
+
+      // Confetti
+      function createConfetti() {
+        for (let i = 0; i < 30; i++) {
+          const c = document.createElement("div");
+          c.className = "confetti";
+          c.style.left = Math.random() * 100 + "vw";
+          c.style.background = `hsl(${Math.random() * 360},100%,70%)`;
+          c.style.animationDuration = Math.random() * 3 + 2 + "s";
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 5000);
+        }
+      }
+      setInterval(createConfetti, 1200);
+    </script>
+  </body>
+</html>
